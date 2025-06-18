@@ -36,3 +36,10 @@ framebuffer.tga
 *.exe
 *.out
 *.app
+
+# Intermediates
+*.tlog
+*.log
+*.idb
+*.pdb
+*.ilk
