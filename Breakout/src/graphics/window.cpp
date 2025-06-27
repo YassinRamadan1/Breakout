@@ -60,7 +60,12 @@ void Window::clear() const
 
 void Window::update() const
 {
-
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+	{
+		Log(error);
+		Log('\n');
+	}
 	glfwSwapBuffers(window_);
 	glfwPollEvents();
 }

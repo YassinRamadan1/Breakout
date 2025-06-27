@@ -1,8 +1,6 @@
 #include "graphics/window.h"
 #include "utils/timer.h" 
-#include "graphics/shader.h"
-#include "graphics/texture.h"
-
+#include "graphics/sprite_renderer.h"
 
 #if DEBUG
 #define Log(x) std::cout << x
@@ -34,26 +32,14 @@ int main()
 	Log('\n');
 
 	mat4 ortho = orthographic(0, 16, 0, 9, -1, 1);
-	Shader shader("res/shaders/triangle.vert", "res/shaders/triangle.frag");
-	Texture("res/textures/awesomeface.png");
+	Shader shader("res/shaders/basic.vert", "res/shaders/basic.frag");
+	Texture texture("res/textures/awesomeface.png", false);
 	shader.enable();
-	shader.setMat4f("projection_matrix", ortho);
+	shader.setMat4f("projection_mat", ortho);
 
-	float vertices[] =
-	{
-		1, 1,
-		8, 1,
-		1, 6
-	};
+	SpriteRenderer renderer(&shader);
+	Sprite sprite(vec2(5, 5), vec2(2, 2), vec3(1.0f), 0.0, &texture);
 
-	unsigned int vao, vbo;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
-	glEnableVertexAttribArray(0);
 	Timer timer;
 	unsigned int count = 0;
 	while (!window.isClosed())
@@ -65,7 +51,7 @@ int main()
 		if (window.isKeyboardKeyPressed(GLFW_KEY_ESCAPE))
 			window.close();
 		
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		renderer.draw(sprite);
 
 		if (timer.elapsed() > 1.0f)
 		{

@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\shader.cpp" />
+    <ClCompile Include="src\graphics\sprite_renderer.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
     <ClCompile Include="src\math\mat4.cpp" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h" />
+    <ClInclude Include="src\graphics\sprite_renderer.h" />
     <ClInclude Include="src\graphics\texture.h" />
     <ClInclude Include="src\graphics\window.h" />
     <ClInclude Include="src\math\mat4.h" />
@@ -177,6 +179,8 @@
     <ClInclude Include="src\utils\timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\basic.frag" />
+    <None Include="res\shaders\basic.vert" />
     <None Include="res\shaders\triangle.frag" />
     <None Include="res\shaders\triangle.vert" />
   </ItemGroup>

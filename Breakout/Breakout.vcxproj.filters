@@ -45,6 +45,9 @@
     <ClCompile Include="src\utils\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\sprite_renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\window.h">
@@ -77,10 +80,15 @@
     <ClInclude Include="src\utils\timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\sprite_renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\triangle.vert" />
     <None Include="res\shaders\triangle.frag" />
+    <None Include="res\shaders\basic.vert" />
+    <None Include="res\shaders\basic.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\awesomeface.png">
