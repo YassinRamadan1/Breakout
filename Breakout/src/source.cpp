@@ -1,6 +1,7 @@
 #include "graphics/window.h"
 #include "utils/timer.h" 
 #include "graphics/sprite_renderer.h"
+#include "game.h"
 
 #if DEBUG
 #define Log(x) std::cout << x
@@ -31,28 +32,25 @@ int main()
 	Log(glGetString(GL_VERSION));
 	Log('\n');
 
-	mat4 ortho = orthographic(0, 16, 0, 9, -1, 1);
 	Shader shader("res/shaders/basic.vert", "res/shaders/basic.frag");
-	Texture texture("res/textures/awesomeface.png", false);
-	shader.enable();
-	shader.setMat4f("projection_mat", ortho);
+	Game breakout(&window, &shader);
+	breakout.addLevels("res/levels/one.lvl");
 
-	SpriteRenderer renderer(&shader);
-	Sprite sprite(vec2(5, 5), vec2(2, 2), vec3(1.0f), 0.0, &texture);
-
-	Timer timer;
+	Timer timer, frame_time;
+	float delta_time = 1.0f;
 	unsigned int count = 0;
+
 	while (!window.isClosed())
 	{
+		frame_time.reset();
 		count++;
-		window.setColor(vec4(0.3f, 0.4f, 0.9f, 1.0f));
+		window.setColor(vec4(0.0f, 0.0f, 0.0f, 1.0f));
 		window.clear();
 
-		if (window.isKeyboardKeyPressed(GLFW_KEY_ESCAPE))
-			window.close();
+		breakout.processInput(delta_time);
+		breakout.render();
+				
 		
-		renderer.draw(sprite);
-
 		if (timer.elapsed() > 1.0f)
 		{
 			printf("%d fps\n", count);
@@ -61,6 +59,7 @@ int main()
 		}
 		
 		window.update();
+		delta_time = frame_time.elapsed();
 	}
 
 	glfwTerminate();

@@ -2,7 +2,7 @@
 #include "shader.h"
 #include "texture.h"
 
-struct Sprite
+struct Renderable
 {
 	float rotation_amount_; // in degrees
 	vec2 position_;
@@ -10,7 +10,7 @@ struct Sprite
 	vec3 color_;
 	Texture* texture_;
 
-	Sprite(vec2 position, vec2 size, vec3 color, float rotation_amount, Texture* texture)
+	Renderable(vec2 position, vec2 size, vec3 color, float rotation_amount, Texture* texture)
 		: position_(position), size_(size), color_(color), rotation_amount_(rotation_amount), texture_(texture)
 	{ }
 };
@@ -25,5 +25,5 @@ public:
 
 	SpriteRenderer(Shader* shader);
 	~SpriteRenderer();
-	void draw(const Sprite& sprite);
+	void draw(const Renderable& sprite);
 };

@@ -40,7 +40,7 @@ SpriteRenderer::~SpriteRenderer()
 	glDeleteBuffers(1, &ibo_);
 }
 
-void SpriteRenderer::draw(const Sprite& sprite)
+void SpriteRenderer::draw(const Renderable& sprite)
 {
 	mat4 model = scale(vec3(sprite.size_.x, sprite.size_.y, 0));
 

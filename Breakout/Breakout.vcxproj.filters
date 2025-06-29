@@ -48,6 +48,15 @@
     <ClCompile Include="src\graphics\sprite_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\window.h">
@@ -83,15 +92,40 @@
     <ClInclude Include="src\graphics\sprite_renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\triangle.vert" />
     <None Include="res\shaders\triangle.frag" />
     <None Include="res\shaders\basic.vert" />
     <None Include="res\shaders\basic.frag" />
+    <None Include="res\levels\four.lvl" />
+    <None Include="res\levels\one.lvl" />
+    <None Include="res\levels\three.lvl" />
+    <None Include="res\levels\two.lvl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\awesomeface.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\background.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\block.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\block_solid.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\paddle.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

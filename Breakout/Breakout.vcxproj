@@ -153,6 +153,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\game_level.cpp" />
+    <ClCompile Include="src\game_object.cpp" />
     <ClCompile Include="src\graphics\shader.cpp" />
     <ClCompile Include="src\graphics\sprite_renderer.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
@@ -166,6 +169,8 @@
     <ClCompile Include="src\utils\timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game_object.h" />
     <ClInclude Include="src\graphics\shader.h" />
     <ClInclude Include="src\graphics\sprite_renderer.h" />
     <ClInclude Include="src\graphics\texture.h" />
@@ -175,10 +180,15 @@
     <ClInclude Include="src\math\vec2.h" />
     <ClInclude Include="src\math\vec3.h" />
     <ClInclude Include="src\math\vec4.h" />
+    <ClInclude Include="src\game_level.h" />
     <ClInclude Include="src\utils\loading_utils.h" />
     <ClInclude Include="src\utils\timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\levels\four.lvl" />
+    <None Include="res\levels\one.lvl" />
+    <None Include="res\levels\three.lvl" />
+    <None Include="res\levels\two.lvl" />
     <None Include="res\shaders\basic.frag" />
     <None Include="res\shaders\basic.vert" />
     <None Include="res\shaders\triangle.frag" />
@@ -186,6 +196,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\awesomeface.png" />
+    <Image Include="res\textures\background.jpg" />
+    <Image Include="res\textures\block.png" />
+    <Image Include="res\textures\block_solid.png" />
+    <Image Include="res\textures\paddle.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

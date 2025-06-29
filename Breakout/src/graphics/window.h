@@ -32,6 +32,9 @@ public:
 	vec2 getMousePosition() const;
 	void enableVsync() const;
 	void disableVsync() const;
+
+	inline const unsigned int& getWidth() const { return width_; }
+	inline const unsigned int& getHeight() const { return height_; }
 private:
 
 	static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
