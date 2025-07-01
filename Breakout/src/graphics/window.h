@@ -37,6 +37,7 @@ public:
 	inline const unsigned int& getHeight() const { return height_; }
 private:
 
+	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 	static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 	static void keyboardKeyCallback(GLFWwindow* window, int key_code, int scan_code, int action, int mods);
 	static void mouseButtonCallback(GLFWwindow* window, int button_code, int action, int mods);

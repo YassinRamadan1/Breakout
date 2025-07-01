@@ -29,6 +29,7 @@ Window::Window(unsigned int width, unsigned int height, const char* title)
 
 	glfwSetWindowUserPointer(window_, this);
 	glViewport(0, 0, width_, height_);
+	glfwSetWindowSizeCallback(window_, windowSizeCallback);
 	glfwSetFramebufferSizeCallback(window_, framebufferSizeCallback);
 	glfwSetKeyCallback(window_, keyboardKeyCallback);
 	glfwSetMouseButtonCallback(window_, mouseButtonCallback);
@@ -100,10 +101,14 @@ void Window::disableVsync() const
 	glfwSwapInterval(0);
 }
 
-void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height)
+void Window::windowSizeCallback(GLFWwindow* window, int width, int height)
 {
 	Window* win = (Window*)glfwGetWindowUserPointer(window);
 	win->width_ = width, win->height_ = height;
+}
+
+void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
 	glViewport(0, 0, width, height);
 }
 

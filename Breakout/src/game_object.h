@@ -11,7 +11,7 @@ public:
 	float rotation_amount_; // in degrees
 	vec2 position_;
 	vec2 size_;
-	vec2 velocity = vec2(0.0f, 0.0f);
+	vec2 velocity_ = vec2(0.0f, 0.0f);
 	vec3 color_;
 	Texture* texture_;
 

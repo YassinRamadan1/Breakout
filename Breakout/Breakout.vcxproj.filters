@@ -57,6 +57,9 @@
     <ClCompile Include="src\game_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ball_object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\window.h">
@@ -101,6 +104,9 @@
     <ClInclude Include="src\game_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ball_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\triangle.vert" />
@@ -113,7 +119,7 @@
     <None Include="res\levels\two.lvl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\awesomeface.png">
+    <Image Include="res\textures\ball.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\background.jpg">

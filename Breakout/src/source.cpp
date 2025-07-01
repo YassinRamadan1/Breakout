@@ -48,6 +48,7 @@ int main()
 		window.clear();
 
 		breakout.processInput(delta_time);
+		breakout.update(delta_time);
 		breakout.render();
 				
 		
@@ -57,7 +58,6 @@ int main()
 			count = 0;
 			timer.reset();
 		}
-		
 		window.update();
 		delta_time = frame_time.elapsed();
 	}

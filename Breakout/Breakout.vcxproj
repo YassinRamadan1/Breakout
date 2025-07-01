@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ball_object.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\game_level.cpp" />
     <ClCompile Include="src\game_object.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="src\utils\timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ball_object.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\game_object.h" />
     <ClInclude Include="src\graphics\shader.h" />
@@ -195,7 +197,7 @@
     <None Include="res\shaders\triangle.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\awesomeface.png" />
+    <Image Include="res\textures\ball.png" />
     <Image Include="res\textures\background.jpg" />
     <Image Include="res\textures\block.png" />
     <Image Include="res\textures\block_solid.png" />

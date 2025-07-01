@@ -6,5 +6,6 @@ GameObject::GameObject(vec2 position, vec2 size, vec3 color, Texture* texture, f
 
 void GameObject::draw(SpriteRenderer& renderer)
 {
-	renderer.draw(Renderable(position_, size_, color_, rotation_amount_, texture_));
+	if (!is_destroyed_)
+		renderer.draw(Renderable(position_, size_, color_, rotation_amount_, texture_));
 }
