@@ -14,6 +14,7 @@ public:
 	GameLevel(Texture* solid_brick, Texture* normal_brick);
 
 	void load(const std::string& level_file_path, vec2 starting_position, vec2 level_size);
+	void reLoad();
 	void draw(SpriteRenderer& renderer);
 	bool isFinished();
 };

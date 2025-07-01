@@ -12,9 +12,9 @@ Game::Game(Window* window, Shader* shader)
 	regular_block_ = new Texture("res/textures/block.png");
 	
 	player_ = new GameObject(vec2(window_->getWidth() / 2.0f, window_->getHeight() / 20.0f), vec2(100.0f, 20.0f), vec3(1.0f), paddle_, 0.0f, true);
-	player_->velocity_.x = 500.0f;
+	player_->velocity_ = INITIAL_PLAYER_VELOCITY;
 
-	ball_ = new BallObject(player_->position_ + vec2(player_->size_.x / 2.0f, player_->size_.y) , 12.5, vec2(100.0, 350.0), vec3(1.0f), bouncy_ball_);
+	ball_ = new BallObject(player_->position_ + vec2(player_->size_.x / 2.0f, player_->size_.y) , 12.5, INITIAL_BALL_VELOCITY, vec3(1.0f), bouncy_ball_);
 
 	shader_->enable();
 	shader_->setMat4f("projection_mat", orthographic(0, window_->getWidth(), 0, window_->getHeight(), -1, 1));
@@ -83,23 +83,71 @@ void Game::processInput(float delta_time)
 void Game::update(float delta_time)
 {
 	ball_->move(delta_time, vec2(window_->getWidth(), window_->getHeight()));
-	if (ball_->is_on_paddle_ || ball_->position_.y < 0)
-		ball_->reset(player_->position_ + vec2(player_->size_.x / 2.0f, player_->size_.y), vec2(100.0, 350.0));
+	if (ball_->is_on_paddle_)
+	{
+		ball_->reset(player_->position_ + vec2(player_->size_.x / 2.0f, player_->size_.y), INITIAL_BALL_VELOCITY);
+	}
+	if (ball_->position_.y < 0)
+	{
+		levels_[cur_level_]->reLoad();
+		resetPlayer();
+		ball_->reset(player_->position_ + vec2(player_->size_.x / 2.0f, player_->size_.y), INITIAL_BALL_VELOCITY);
+	}
 	checkCollisions();
 }
 
-bool Game::collide(BallObject* ball, GameObject* brick)
+void Game::resetPlayer()
 {
-	vec2 brick_half_size = brick->size_ / 2.0;
+	player_->position_ = vec2(window_->getWidth() / 2.0f, window_->getHeight() / 20.0f);
+	player_->velocity_ = INITIAL_PLAYER_VELOCITY;
+}
+
+Direction Game::getClosestDirection(vec2 target)
+{
+	vec2 vec(1.0f, 0.0f);
+	Direction closest = RIGHT;
+	float max = dot(vec, target), current;
+
+	vec.x = -1.0f, vec.y = 0.0f;
+	current = dot(vec, target);
+	if (max < current)
+		closest = LEFT, max = current;
+
+	vec.x = 0.0f, vec.y = 1.0f;
+	current = dot(vec, target);
+	if (max < current)
+		closest = UP, max = current;
+
+	vec.x = 0.0f, vec.y = -1.0f;
+	current = dot(vec, target);
+	if (max < current)
+		closest = DOWN, max = current;
+
+	return closest;
+}
+
+Collision Game::collide(BallObject* ball, GameObject* brick)
+{
+	Collision collision;
+
 	vec2 ball_center = ball->position_ + (ball->size_ / 2.0);
-	vec2 brick_center = brick->position_ + brick_half_size;
+	vec2 brick_center = brick->position_ + (brick->size_ / 2.0);
 
-	vec2 direction = ball_center - brick_center;
-	direction.x = std::max(-brick_half_size.x, std::min(direction.x, brick_half_size.x));
-	direction.y = std::max(-brick_half_size.y, std::min(direction.y, brick_half_size.y));
-	vec2 closest_point = brick_center + direction;
+	vec2 closest_point(std::max(brick->position_.x, std::min( ball_center.x, brick->position_.x + brick->size_.x)),
+		std::max(brick->position_.y, std::min(ball_center.y, brick->position_.y + brick->size_.y)));
 
-	return length2(closest_point - ball_center) <= ball->radius_ * ball->radius_;
+	vec2 displacement_direction = ball_center - closest_point;
+	float len = length(displacement_direction);
+
+	collision.is_collided_ = len <= ball->radius_;
+	if (!collision.is_collided_)
+		return collision;
+
+	collision.penetration_displacement_ = (len < 1e-8) ? vec2(1.0f, 0.0f) : (displacement_direction / len);
+	collision.penetration_displacement_ = (ball->radius_ - len) * collision.penetration_displacement_;
+	collision.collision_direction_ = getClosestDirection(collision.penetration_displacement_);
+	
+	return collision;
 }
 
 void Game::checkCollisions()
@@ -110,11 +158,59 @@ void Game::checkCollisions()
 	{
 		if (level[i].is_destroyed_)
 			continue;
-		if (collide(ball_, &level[i]))
+		Collision collision = collide(ball_, &level[i]);
+		if (collision.is_collided_)
 		{
+			ball_->position_ += collision.penetration_displacement_;
+
+			switch (collision.collision_direction_)
+			{
+			case RIGHT:
+				ball_->velocity_.x = 1.0 * abs(ball_->velocity_.x);
+				break;
+			case LEFT:
+				ball_->velocity_.x = -1.0 * abs(ball_->velocity_.x);
+				break;
+			case UP:
+				ball_->velocity_.y = 1.0 * abs(ball_->velocity_.y);
+				break;
+			case DOWN:
+				ball_->velocity_.y = -1.0 * abs(ball_->velocity_.y);
+				break;
+			}
 
 			if (!level[i].is_solid_)
 				level[i].is_destroyed_ = true;
 		}
 	}
+	if(!ball_->is_on_paddle_)
+	{
+		Collision collision = collide(ball_, player_);
+		if (!collision.is_collided_)
+			return;
+	
+		ball_->position_ += collision.penetration_displacement_;
+
+		switch (collision.collision_direction_)
+		{
+		case RIGHT:
+			ball_->velocity_.x = 1.0 * abs(ball_->velocity_.x);
+			break;
+		case LEFT:
+			ball_->velocity_.x = -1.0 * abs(ball_->velocity_.x);
+			break;
+		case UP:
+			{
+				float distance = (ball_->position_.x + ball_->radius_) - (player_->position_.x + player_->size_.x / 2.0f);
+				float percentage = distance / (player_->size_.x / 2.0f);
+				float old = length(ball_->velocity_);
+				float strength = 2.0f;
+				ball_->velocity_.x = INITIAL_BALL_VELOCITY.x * percentage * strength;
+				ball_->velocity_.y = 1.0 * abs(ball_->velocity_.y);
+				ball_->velocity_ = old * normalize(ball_->velocity_);
+				break;
+			}
+		}
+	}
+
 }

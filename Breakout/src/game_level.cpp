@@ -63,6 +63,14 @@ void GameLevel::load(const std::string& level_file_path, vec2 starting_position,
 	}
 }
 
+void GameLevel::reLoad()
+{
+	for (int i = 0; i < bricks_.size(); i++)
+	{
+		bricks_[i].is_destroyed_ = false;
+	}
+}
+
 void GameLevel::draw(SpriteRenderer& renderer)
 {
 	for (int i = 0; i < bricks_.size(); i++)
